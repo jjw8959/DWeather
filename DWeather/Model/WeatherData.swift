@@ -42,12 +42,12 @@ struct Hourly: Codable {
 
 struct Daily: Codable {
     let dt: Double
-//    let temp: [Temp]
+    let temp: [Temp]
 }
 
-//struct Temp: Codable {
-//    let min: Double
-//    let max: Double
+struct Temp: Codable {
+    let min: Double
+    let max: Double
 //    let weather: [Weather]
 //}
 

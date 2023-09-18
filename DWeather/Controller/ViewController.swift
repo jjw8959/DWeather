@@ -70,7 +70,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
-            cell.dayLabel.text = String(format: "%.f", ViewController.weatherData?.daily[indexPath.row].dt ?? 0 )
+//            cell.dayLabel.text = String(format: "%.f", (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0) )
+            
+            cell.dayLabel.text = Date(timeIntervalSince1970: (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0)).getDayFromDate()
+//            cell.lowLabel.text = ViewController.weatherData?.daily[indexPath.row + 1].temp[0].min
+            
+            print
             
             return cell
 //            return UITableViewCell()
@@ -90,8 +95,8 @@ extension ViewController: CLLocationManagerDelegate {
     
     func initLocationManager(locationManager: CLLocationManager) {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManagerDidChangeAuthorization(locationManager)
     }
     
@@ -123,4 +128,14 @@ extension ViewController: WeatherManagerDelegate {
         self.tableView.reloadData()
     }
     
+}
+
+
+extension Date {
+    
+    func getDayFromDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        return formatter.string(from: self)
+    }
 }
