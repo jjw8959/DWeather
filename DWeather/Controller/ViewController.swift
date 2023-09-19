@@ -11,7 +11,11 @@ import CoreLocation
 class ViewController: UIViewController {
     //MARK: - property
     
-    let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutley"
+    @IBOutlet weak var lowLabel: UILabel!
+    @IBOutlet weak var highLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var tempertureLabel: UILabel!
+    let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
     
     static var weatherData: WeatherData?
     var networkManager = NetworkManager()
@@ -73,14 +77,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //            cell.dayLabel.text = String(format: "%.f", (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0) )
             
             cell.dayLabel.text = Date(timeIntervalSince1970: (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0)).getDayFromDate()
-//            cell.lowLabel.text = ViewController.weatherData?.daily[indexPath.row + 1].temp[0].min
             
-            print
+            cell.lowLabel.text = String(format: "%.0f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.min ?? 0)) + "℃"
+            
+            cell.highLabel.text = String(format: "%.f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
+            
             
             return cell
-//            return UITableViewCell()
+            
         case 2:
             return UITableViewCell()
+            
         default:
             return UITableViewCell()
         }
@@ -126,7 +133,21 @@ extension ViewController: WeatherManagerDelegate {
     
     func reloadWeatherData() {
         self.tableView.reloadData()
+        self.tempertureLabel.text = String(format: "%.f", floor(ViewController.weatherData?.current.temp ?? 0)) + "℃"
+        
+        self.highLabel.text = "최고: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.max ?? 0)) + "℃"
+        
+        self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
+        
+        
+        
     }
+    
+}
+
+//MARK: - ETC.
+
+extension ViewController {
     
 }
 

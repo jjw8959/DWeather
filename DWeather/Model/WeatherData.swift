@@ -25,35 +25,35 @@ struct Current: Codable {
     let uvi: Float
     let wind_speed: Float
     let wind_deg: Float
-    let weather: [Weather]
+//    let weather: [Weather]
 }
 
 struct Hourly: Codable {
     let dt: Double
     let temp: Float
-    let weather: [Weather]
+//    let weather: [Weather]
 }
 
-//struct Hour: Codable {
-//    let dt: Int
-//    let temp: Float
+struct Hour: Codable {
+    let dt: Int
+    let temp: Float
 //    let weather: [Weather]
-//}
+}
 
 struct Daily: Codable {
     let dt: Double
-    let temp: [Temp]
+    let temp: Temp
 }
 
 struct Temp: Codable {
     let min: Double
     let max: Double
 //    let weather: [Weather]
-//}
-
-struct Weather: Codable {
-    let main: String
-    let description: String
-    let icon: String
 }
+
+//struct Weather: Codable {
+//    let main: String
+//    let description: String
+//    let icon: String
+//}
 

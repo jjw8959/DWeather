@@ -23,15 +23,13 @@ struct NetworkManager {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {
-                    print(error as Any)
+                    print(error)
                 }
                 if let safeData = data {
                     ViewController.weatherData = parseJSON(data: safeData)
                     
                     DispatchQueue.main.async {
                         self.delegate?.reloadWeatherData()
-                        
-
                     }
                 }
             }

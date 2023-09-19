@@ -103,7 +103,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cityLabel" destination="m8n-sA-jJZ" id="Bip-8t-8pS"/>
+                        <outlet property="highLabel" destination="436-GD-5d9" id="5ki-nG-yxZ"/>
+                        <outlet property="lowLabel" destination="0EC-u7-mRN" id="VDl-cg-wvH"/>
                         <outlet property="tableView" destination="ghT-4z-c9r" id="VUe-X1-VXL"/>
+                        <outlet property="tempertureLabel" destination="ABW-3h-i0R" id="enx-CJ-0UN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
