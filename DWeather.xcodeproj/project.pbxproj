@@ -17,9 +17,15 @@
 		09D54E532AB6D55E0039EF04 /* DailyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E512AB6D55E0039EF04 /* DailyCell.swift */; };
 		09D54E542AB6D55E0039EF04 /* DailyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D54E522AB6D55E0039EF04 /* DailyCell.xib */; };
 		09D54E562AB6D6B10039EF04 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E552AB6D6B10039EF04 /* NetworkManager.swift */; };
+		09D54E5A2ABA9AE30039EF04 /* HourlyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E582ABA9AE30039EF04 /* HourlyCell.swift */; };
+		09D54E5B2ABA9AE30039EF04 /* HourlyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D54E592ABA9AE30039EF04 /* HourlyCell.xib */; };
+		09D54E5F2ABA9F9D0039EF04 /* HourlyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E5D2ABA9F9D0039EF04 /* HourlyTableViewCell.swift */; };
+		09D54E602ABA9F9D0039EF04 /* HourlyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D54E5E2ABA9F9D0039EF04 /* HourlyTableViewCell.xib */; };
+		0F5D5B9D3FBB1E85BF043425 /* Pods_DWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F293B75339F6C1BB8C186C8 /* Pods_DWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0044D2AFA5FE949E54770A9E /* Pods-DWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DWeather.release.xcconfig"; path = "Target Support Files/Pods-DWeather/Pods-DWeather.release.xcconfig"; sourceTree = "<group>"; };
 		09D54E332AB6CA460039EF04 /* DWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D54E362AB6CA460039EF04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09D54E382AB6CA460039EF04 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +38,12 @@
 		09D54E512AB6D55E0039EF04 /* DailyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCell.swift; sourceTree = "<group>"; };
 		09D54E522AB6D55E0039EF04 /* DailyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DailyCell.xib; sourceTree = "<group>"; };
 		09D54E552AB6D6B10039EF04 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		09D54E582ABA9AE30039EF04 /* HourlyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCell.swift; sourceTree = "<group>"; };
+		09D54E592ABA9AE30039EF04 /* HourlyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyCell.xib; sourceTree = "<group>"; };
+		09D54E5D2ABA9F9D0039EF04 /* HourlyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyTableViewCell.swift; sourceTree = "<group>"; };
+		09D54E5E2ABA9F9D0039EF04 /* HourlyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyTableViewCell.xib; sourceTree = "<group>"; };
+		654CB3C3EF2E54743C25DE22 /* Pods-DWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DWeather.debug.xcconfig"; path = "Target Support Files/Pods-DWeather/Pods-DWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		6F293B75339F6C1BB8C186C8 /* Pods_DWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F5D5B9D3FBB1E85BF043425 /* Pods_DWeather.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +63,8 @@
 			children = (
 				09D54E352AB6CA460039EF04 /* DWeather */,
 				09D54E342AB6CA460039EF04 /* Products */,
+				30CB4E585692058A1932E0BE /* Pods */,
+				E894CCED5E4670A818F32838 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,8 +102,9 @@
 		09D54E4C2AB6D0020039EF04 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				09D54E502AB6D5400039EF04 /* Daily */,
 				09D54E3C2AB6CA460039EF04 /* Main.storyboard */,
+				09D54E5C2ABA9F740039EF04 /* HourlyTableCell */,
+				09D54E502AB6D5400039EF04 /* Daily */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -111,6 +127,43 @@
 			path = Daily;
 			sourceTree = "<group>";
 		};
+		09D54E572ABA9AB50039EF04 /* HourlyCell */ = {
+			isa = PBXGroup;
+			children = (
+				09D54E582ABA9AE30039EF04 /* HourlyCell.swift */,
+				09D54E592ABA9AE30039EF04 /* HourlyCell.xib */,
+			);
+			path = HourlyCell;
+			sourceTree = "<group>";
+		};
+		09D54E5C2ABA9F740039EF04 /* HourlyTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				09D54E5D2ABA9F9D0039EF04 /* HourlyTableViewCell.swift */,
+				09D54E5E2ABA9F9D0039EF04 /* HourlyTableViewCell.xib */,
+				09D54E572ABA9AB50039EF04 /* HourlyCell */,
+			);
+			path = HourlyTableCell;
+			sourceTree = "<group>";
+		};
+		30CB4E585692058A1932E0BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				654CB3C3EF2E54743C25DE22 /* Pods-DWeather.debug.xcconfig */,
+				0044D2AFA5FE949E54770A9E /* Pods-DWeather.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E894CCED5E4670A818F32838 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6F293B75339F6C1BB8C186C8 /* Pods_DWeather.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,9 +171,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09D54E472AB6CA470039EF04 /* Build configuration list for PBXNativeTarget "DWeather" */;
 			buildPhases = (
+				2D839100F0958BB05658343E /* [CP] Check Pods Manifest.lock */,
 				09D54E2F2AB6CA460039EF04 /* Sources */,
 				09D54E302AB6CA460039EF04 /* Frameworks */,
 				09D54E312AB6CA460039EF04 /* Resources */,
+				A50C9EBCFE36ACE2365405FB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -169,14 +224,58 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09D54E602ABA9F9D0039EF04 /* HourlyTableViewCell.xib in Resources */,
 				09D54E432AB6CA470039EF04 /* LaunchScreen.storyboard in Resources */,
 				09D54E542AB6D55E0039EF04 /* DailyCell.xib in Resources */,
 				09D54E402AB6CA470039EF04 /* Assets.xcassets in Resources */,
 				09D54E3E2AB6CA460039EF04 /* Main.storyboard in Resources */,
+				09D54E5B2ABA9AE30039EF04 /* HourlyCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2D839100F0958BB05658343E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DWeather-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A50C9EBCFE36ACE2365405FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DWeather/Pods-DWeather-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DWeather/Pods-DWeather-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DWeather/Pods-DWeather-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		09D54E2F2AB6CA460039EF04 /* Sources */ = {
@@ -185,8 +284,10 @@
 			files = (
 				09D54E562AB6D6B10039EF04 /* NetworkManager.swift in Sources */,
 				09D54E3B2AB6CA460039EF04 /* ViewController.swift in Sources */,
+				09D54E5F2ABA9F9D0039EF04 /* HourlyTableViewCell.swift in Sources */,
 				09D54E532AB6D55E0039EF04 /* DailyCell.swift in Sources */,
 				09D54E372AB6CA460039EF04 /* AppDelegate.swift in Sources */,
+				09D54E5A2ABA9AE30039EF04 /* HourlyCell.swift in Sources */,
 				09D54E4F2AB6D0180039EF04 /* WeatherData.swift in Sources */,
 				09D54E392AB6CA460039EF04 /* SceneDelegate.swift in Sources */,
 			);
@@ -330,6 +431,7 @@
 		};
 		09D54E482AB6CA470039EF04 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 654CB3C3EF2E54743C25DE22 /* Pods-DWeather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -359,6 +461,7 @@
 		};
 		09D54E492AB6CA470039EF04 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0044D2AFA5FE949E54770A9E /* Pods-DWeather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

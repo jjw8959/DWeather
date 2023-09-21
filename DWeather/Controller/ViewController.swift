@@ -10,20 +10,25 @@ import CoreLocation
 
 class ViewController: UIViewController {
     //MARK: - property
-    
-    @IBOutlet weak var lowLabel: UILabel!
-    @IBOutlet weak var highLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var tempertureLabel: UILabel!
     let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
     
     static var weatherData: WeatherData?
     var networkManager = NetworkManager()
     let locationManager = CLLocationManager()
-
+    
+    let findLocation = CLLocation(latitude: 37.6, longitude: 126.7)
+    let geocoder = CLGeocoder()
+    let locale = Locale(identifier: "Ko-kr")
+    var location: [String] = []
+    let hourlyTableViewCell = HourlyTableViewCell()
+    
+    
     //MARK: - outlet
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var lowLabel: UILabel!
+    @IBOutlet weak var highLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var tempertureLabel: UILabel!
     
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
@@ -33,7 +38,11 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         
         initLocationManager(locationManager: locationManager)
+        locationManager.requestLocation()
         
+        
+        let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
+        tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
         
         let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
         tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
@@ -41,11 +50,7 @@ class ViewController: UIViewController {
         networkManager.delegate = self
         networkManager.performRequest(urlString: testURL)
         
-        
     }
-
-    
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -70,11 +75,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HourlyTableViewCell", for: indexPath) as! HourlyTableViewCell
+            
+            cell.weatherData = ViewController.weatherData
+            
+            return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
-//            cell.dayLabel.text = String(format: "%.f", (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0) )
             
             cell.dayLabel.text = Date(timeIntervalSince1970: (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0)).getDayFromDate()
             
@@ -91,9 +99,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             return UITableViewCell()
         }
-        
-        
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return CGFloat(120)
+        case 1:
+            return CGFloat(44)
+        case 2:
+            return CGFloat(44)
+        default:
+            return CGFloat()
+        }
+    }
+    
 }
 
 //MARK: - CLLocationManager
@@ -133,26 +153,48 @@ extension ViewController: WeatherManagerDelegate {
     
     func reloadWeatherData() {
         self.tableView.reloadData()
+        
+        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) {(placemaker, error) in
+            if let address: [CLPlacemark] = placemaker {
+                if let name: String = address.last?.name {
+                    self.location = name.split(separator: " ").map(String.init)
+                    self.cityLabel.text = self.location[0]
+                }
+            }
+        }
+        
         self.tempertureLabel.text = String(format: "%.f", floor(ViewController.weatherData?.current.temp ?? 0)) + "℃"
         
         self.highLabel.text = "최고: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.max ?? 0)) + "℃"
         
         self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
         
-        
+//        hourlyTableViewCell.collectionView.reloadData()
         
     }
     
 }
 
 //MARK: - ETC.
-
-extension ViewController {
-    
-}
+//
+//extension ViewController {
+//
+//}
 
 
 extension Date {
+    
+    func getAmPmFromDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "a"
+        return formatter.string(from: self)
+    }
+    
+    func getHourFromDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h"
+        return formatter.string(from: self)
+    }
     
     func getDayFromDate() -> String {
         let formatter = DateFormatter()
