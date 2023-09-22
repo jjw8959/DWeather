@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09B2A6C22ABD2D9700839741 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B2A6C02ABD2D9700839741 /* InfoCell.swift */; };
+		09B2A6C32ABD2D9700839741 /* InfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09B2A6C12ABD2D9700839741 /* InfoCell.xib */; };
 		09D54E372AB6CA460039EF04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E362AB6CA460039EF04 /* AppDelegate.swift */; };
 		09D54E392AB6CA460039EF04 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E382AB6CA460039EF04 /* SceneDelegate.swift */; };
 		09D54E3B2AB6CA460039EF04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D54E3A2AB6CA460039EF04 /* ViewController.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		0044D2AFA5FE949E54770A9E /* Pods-DWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DWeather.release.xcconfig"; path = "Target Support Files/Pods-DWeather/Pods-DWeather.release.xcconfig"; sourceTree = "<group>"; };
+		09B2A6C02ABD2D9700839741 /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
+		09B2A6C12ABD2D9700839741 /* InfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoCell.xib; sourceTree = "<group>"; };
 		09D54E332AB6CA460039EF04 /* DWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09D54E362AB6CA460039EF04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09D54E382AB6CA460039EF04 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +62,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09B2A6BF2ABD2D8400839741 /* InfoCell */ = {
+			isa = PBXGroup;
+			children = (
+				09B2A6C02ABD2D9700839741 /* InfoCell.swift */,
+				09B2A6C12ABD2D9700839741 /* InfoCell.xib */,
+			);
+			path = InfoCell;
+			sourceTree = "<group>";
+		};
 		09D54E2A2AB6CA460039EF04 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +118,7 @@
 				09D54E3C2AB6CA460039EF04 /* Main.storyboard */,
 				09D54E5C2ABA9F740039EF04 /* HourlyTableCell */,
 				09D54E502AB6D5400039EF04 /* Daily */,
+				09B2A6BF2ABD2D8400839741 /* InfoCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -152,7 +166,6 @@
 				654CB3C3EF2E54743C25DE22 /* Pods-DWeather.debug.xcconfig */,
 				0044D2AFA5FE949E54770A9E /* Pods-DWeather.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -225,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09D54E602ABA9F9D0039EF04 /* HourlyTableViewCell.xib in Resources */,
+				09B2A6C32ABD2D9700839741 /* InfoCell.xib in Resources */,
 				09D54E432AB6CA470039EF04 /* LaunchScreen.storyboard in Resources */,
 				09D54E542AB6D55E0039EF04 /* DailyCell.xib in Resources */,
 				09D54E402AB6CA470039EF04 /* Assets.xcassets in Resources */,
@@ -287,6 +301,7 @@
 				09D54E5F2ABA9F9D0039EF04 /* HourlyTableViewCell.swift in Sources */,
 				09D54E532AB6D55E0039EF04 /* DailyCell.swift in Sources */,
 				09D54E372AB6CA460039EF04 /* AppDelegate.swift in Sources */,
+				09B2A6C22ABD2D9700839741 /* InfoCell.swift in Sources */,
 				09D54E5A2ABA9AE30039EF04 /* HourlyCell.swift in Sources */,
 				09D54E4F2AB6D0180039EF04 /* WeatherData.swift in Sources */,
 				09D54E392AB6CA460039EF04 /* SceneDelegate.swift in Sources */,

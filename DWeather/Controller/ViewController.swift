@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     //MARK: - property
     let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
     
+    var urls = ""
+    
     static var weatherData: WeatherData?
     var networkManager = NetworkManager()
     let locationManager = CLLocationManager()
@@ -40,6 +42,15 @@ class ViewController: UIViewController {
         initLocationManager(locationManager: locationManager)
         locationManager.requestLocation()
         
+        let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
+        let urlTrailer = "&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
+        
+        var lat = locationManager.location?.coordinate.latitude ?? 0
+        var long = locationManager.location?.coordinate.longitude ?? 0
+        
+        urls = urlHeader + "&lat=" + String(format:"%.2f", lat) + "&lon=" + String(format: "%.2f", long) + urlTrailer
+        print(testURL)
+        print(urls)
         
         let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
         tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
@@ -47,8 +58,13 @@ class ViewController: UIViewController {
         let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
         tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
         
+        let infoCellNib = UINib(nibName: "InfoCell", bundle: nil)
+        tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
+        
+        tableView.backgroundColor = UIColor.clear
+        
         networkManager.delegate = self
-        networkManager.performRequest(urlString: testURL)
+        networkManager.performRequest(urlString: urls)
         
     }
 }
@@ -65,7 +81,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return 7
         case 2:
-            return 1
+            return 8
         default:
             return 0
         }
@@ -79,6 +95,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.weatherData = ViewController.weatherData
             
+            cell.backgroundColor = UIColor.clear
+            
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
@@ -90,11 +108,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.highLabel.text = String(format: "%.f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
             
+            if let icon = ViewController.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
+               let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
+                cell.weatherImage.kf.setImage(with: weatherImageURL)
+            }
+            
+            cell.backgroundColor = UIColor.clear
             
             return cell
             
         case 2:
-            return UITableViewCell()
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InfoCell", for: indexPath) as! InfoCell
+            
+            cell.weatherData = ViewController.weatherData
+            
+            cell.configureWithIndexPathRow(indexPathRow: indexPath.row)
+            
+            cell.backgroundColor = UIColor.clear
+            
+            return cell
             
         default:
             return UITableViewCell()
@@ -108,7 +141,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return CGFloat(44)
         case 2:
-            return CGFloat(44)
+            return CGFloat(75)
         default:
             return CGFloat()
         }
@@ -169,7 +202,6 @@ extension ViewController: WeatherManagerDelegate {
         
         self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
         
-//        hourlyTableViewCell.collectionView.reloadData()
         
     }
     
@@ -199,6 +231,12 @@ extension Date {
     func getDayFromDate() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
+        return formatter.string(from: self)
+    }
+    
+    func getHourMinuteFromDate() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h시 m분"
         return formatter.string(from: self)
     }
 }

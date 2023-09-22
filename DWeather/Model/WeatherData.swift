@@ -16,12 +16,12 @@ struct WeatherData: Codable {
 
 struct Current: Codable {
     let dt: Double
-    let sunrise: Int
-    let sunset: Int
+    let sunrise: Double
+    let sunset: Double
     let temp: Float
     let feels_like: Float
     let pressure: Double
-    let humidity: Int
+    let humidity: Double
     let uvi: Float
     let wind_speed: Float
     let wind_deg: Float

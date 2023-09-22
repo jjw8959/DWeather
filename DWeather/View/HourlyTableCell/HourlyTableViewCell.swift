@@ -31,6 +31,8 @@ class HourlyTableViewCell: UITableViewCell{
             layout.scrollDirection = .horizontal
         }
         
+        collectionView.backgroundColor = UIColor.clear
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -69,38 +71,20 @@ extension HourlyTableViewCell: UICollectionViewDataSource, UICollectionViewDeleg
         cell.timeLabel.text = "\(ampm) \(hour)시"
         
         
-//        if let icon = self.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
-//           let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
-//
-//            cell.weatherImageView.kf.setImage(with: weatherImageURL) { result in
-//                switch result {
-//                case .success() :
-//                    cell.tempLabel.text = String(format: "%.f", ViewController.weatherData?.hourly[indexPath.row + 1].temp ?? 0)
-//                case .failure() :
-//                    print("이미지 로딩 실패")
-//                    break
-//                }
-//
-//            }
-//
-//        }
-        
         if let icon = self.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
            let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
             cell.weatherImageView.kf.setImage(with: weatherImageURL) { result in
                 switch result {
                 case .success(_):
-                    // 이미지 로딩 성공 시 레이블 업데이트
                     cell.tempLabel.text = String(format: "%.f", ViewController.weatherData?.hourly[indexPath.row + 1].temp ?? 0)
                 case .failure(_):
-                    // 이미지 로딩 실패 시 에러 처리
                     break
                 }
             }
         }
 
 
-        
+        cell.backgroundColor = UIColor.clear
         
         return cell
     }

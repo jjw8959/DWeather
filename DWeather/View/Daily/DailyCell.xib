@@ -60,7 +60,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Okq-j0-wX9" secondAttribute="bottom" id="CJr-FI-d1k"/>
-                    <constraint firstAttribute="trailing" secondItem="Okq-j0-wX9" secondAttribute="trailing" id="jjh-H8-wNq"/>
+                    <constraint firstItem="Okq-j0-wX9" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailing" id="jjh-H8-wNq"/>
                     <constraint firstItem="Okq-j0-wX9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ycf-6p-hzn"/>
                     <constraint firstItem="Okq-j0-wX9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ypB-sA-hfE"/>
                 </constraints>
