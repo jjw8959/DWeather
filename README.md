@@ -32,7 +32,19 @@ iOS 16.4
 
 ## 기타
 
-### ⚙️사용된 스택
+### 배운점
+• CustomTableView를 이용해 뷰를 구성할 수 있었다.
+
+• CustomTableView안에 Custom Collection View를 넣어 뷰를 구성할 수 있었다.
+
+• URLSession을 어떻게 사용하는지, URLSession을 이용해 JSON데이터를 받아오고 파싱하는 방법까지 알았다.
+
+• CoreLocation을 이용해 위도, 경도를 받아올 수 있었다.
+
+• DateFormatter를 이용해 타임스탬프를 원하는 형태로 가공해 표시할 수 있었다.
+
+
+### ⚙️기술 스택
 • Swift
 
 • MVC(리팩토링 중)
@@ -47,5 +59,6 @@ iOS 16.4
 
 ### 사용한 API
   OpenWeatherAPI
+  
 ### 사용한 라이브러리
   Kingfisher
