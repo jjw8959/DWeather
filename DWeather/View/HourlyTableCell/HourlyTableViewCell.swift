@@ -76,7 +76,7 @@ extension HourlyTableViewCell: UICollectionViewDataSource, UICollectionViewDeleg
             cell.weatherImageView.kf.setImage(with: weatherImageURL) { result in
                 switch result {
                 case .success(_):
-                    cell.tempLabel.text = String(format: "%.f", ViewController.weatherData?.hourly[indexPath.row + 1].temp ?? 0)
+                    cell.tempLabel.text = String(format: "%.f", ViewController.weatherData?.hourly[indexPath.row + 1].temp ?? 0) + "℃"
                 case .failure(_):
                     break
                 }

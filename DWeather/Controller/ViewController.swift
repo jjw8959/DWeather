@@ -43,23 +43,18 @@ class ViewController: UIViewController {
         locationManager.requestLocation()
         
         let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
-        let urlTrailer = "&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
+        let apiKey = "&appid=3de3162e2a95cb6050fc726bf76c691d"
+        let urlTrailer = "&units=metric&exclude=minutely"
         
         var lat = locationManager.location?.coordinate.latitude ?? 0
+//        if let lat = locationManager.location?.coordinate.latitude {
+//
+//        }
         var long = locationManager.location?.coordinate.longitude ?? 0
         
-        urls = urlHeader + "&lat=" + String(format:"%.2f", lat) + "&lon=" + String(format: "%.2f", long) + urlTrailer
-        print(testURL)
-        print(urls)
+        urls = urlHeader + "&lat=" + String(format:"%.2f", lat) + "&lon=" + String(format: "%.2f", long) + apiKey + urlTrailer
         
-        let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
-        tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
-        
-        let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
-        tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
-        
-        let infoCellNib = UINib(nibName: "InfoCell", bundle: nil)
-        tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
+        initCells()
         
         tableView.backgroundColor = UIColor.clear
         
@@ -68,6 +63,8 @@ class ViewController: UIViewController {
         
     }
 }
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -179,6 +176,19 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
+    
+    func changeAddressToDong() {
+        
+        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) {(placemaker, error) in
+            if let address: [CLPlacemark] = placemaker {
+                if let name = address.last?.name {
+                    self.location = name.split(separator: " ").map(String.init)
+                    self.cityLabel.text = self.location[0]
+                    
+                }
+            }
+        }
+    }
 }
 
 //MARK: - WeatherManagerDelegate
@@ -186,32 +196,35 @@ extension ViewController: WeatherManagerDelegate {
     
     func reloadWeatherData() {
         self.tableView.reloadData()
+        setCurrentWeatherLabels()
+    }
+    
+}
+
+//MARK: - ETC.
+
+extension ViewController {
+    func initCells() {
+        let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
+        tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
         
-        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) {(placemaker, error) in
-            if let address: [CLPlacemark] = placemaker {
-                if let name: String = address.last?.name {
-                    self.location = name.split(separator: " ").map(String.init)
-                    self.cityLabel.text = self.location[0]
-                }
-            }
-        }
+        let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
+        tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
         
+        let infoCellNib = UINib(nibName: "InfoCell", bundle: nil)
+        tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
+    }
+    
+    func setCurrentWeatherLabels() {
         self.tempertureLabel.text = String(format: "%.f", floor(ViewController.weatherData?.current.temp ?? 0)) + "℃"
         
         self.highLabel.text = "최고: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.max ?? 0)) + "℃"
         
         self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
         
-        
+        changeAddressToDong()
     }
-    
 }
-
-//MARK: - ETC.
-//
-//extension ViewController {
-//
-//}
 
 
 extension Date {
