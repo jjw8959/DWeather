@@ -9,31 +9,37 @@ import Foundation
 
 
 
-protocol WeatherManagerDelegate {
-    func reloadWeatherData()
-}
+//protocol WeatherManagerDelegate {
+//    func reloadWeatherData()
+//}
 
 
 struct NetworkManager {
+//
+//    var delegate: WeatherManagerDelegate?
     
-    var delegate: WeatherManagerDelegate?
-    
-    func performRequest(urlString: String) {
+    func performRequest(urlString: String, completion: @escaping (WeatherData?) -> Void) {
         if let url = URL(string: urlString) {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error)
-                }
-                if let safeData = data {
-                    ViewController.weatherData = parseJSON(data: safeData)
-                    
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard let data = data else { return }
+                do {
+                    let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
                     DispatchQueue.main.async {
-                        self.delegate?.reloadWeatherData()
+                        completion(weatherData)
                     }
+                } catch let jsonError {
+                    print("Failed to decode from JSON", jsonError)
                 }
-            }
-            task.resume()
+                
+//                if let safeData = data {
+                //                    ViewController.weatherData = parseJSON(data: safeData)
+                //
+                //                    DispatchQueue.main.async {
+                //                        self.delegate?.reloadWeatherData()
+                //                    }
+                //                }
+                
+            }.resume()
         }
     }
     

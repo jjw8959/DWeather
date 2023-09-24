@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     var urls = ""
     
-    static var weatherData: WeatherData?
+    var weatherData: WeatherData?
     var networkManager = NetworkManager()
     let locationManager = CLLocationManager()
     
@@ -58,8 +58,16 @@ class ViewController: UIViewController {
         
         tableView.backgroundColor = UIColor.clear
         
-        networkManager.delegate = self
-        networkManager.performRequest(urlString: urls)
+//        networkManager.delegate = self
+        networkManager.performRequest(urlString: urls) { (weather) in
+            guard let weather = weather else { return }
+            self.weatherData = weather
+            self.reloadWeatherData()
+        }
+//
+//        DispatchQueue.main.async {
+//            self.reloadWeatherData()
+//        }
         
     }
 }
@@ -90,7 +98,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "HourlyTableViewCell", for: indexPath) as! HourlyTableViewCell
             
-            cell.weatherData = ViewController.weatherData
+            cell.weatherData = self.weatherData
             
             cell.backgroundColor = UIColor.clear
             
@@ -99,16 +107,20 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
             
-            cell.dayLabel.text = Date(timeIntervalSince1970: (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0)).getDayFromDate()
-            
-            cell.lowLabel.text = String(format: "%.0f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.min ?? 0)) + "℃"
-            
-            cell.highLabel.text = String(format: "%.f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
-            
-            if let icon = ViewController.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
-               let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
-                cell.weatherImage.kf.setImage(with: weatherImageURL)
-            }
+//            cell.dayLabel.text = Date(timeIntervalSince1970: (self.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (self.weatherData?.timezone_offset ?? 0)).getDayFromDate()
+//
+//            cell.lowLabel.text = String(format: "%.0f", floor(self.weatherData?.daily[indexPath.row + 1].temp.min ?? 0)) + "℃"
+//
+//            cell.highLabel.text = String(format: "%.f", floor(self.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
+//
+//            if let icon = self.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
+//               let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
+//                cell.weatherImage.kf.setImage(with: weatherImageURL)
+//            }
+//
+            cell.getData(weatherData: self.weatherData)
+            let configuredData = cell.configureCell(index: indexPath.row + 1)
+            cell.setupCell(configuredData)
             
             cell.backgroundColor = UIColor.clear
             
@@ -118,7 +130,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "InfoCell", for: indexPath) as! InfoCell
             
-            cell.weatherData = ViewController.weatherData
+            cell.weatherData = self.weatherData
             
             cell.configureWithIndexPathRow(indexPathRow: indexPath.row)
             
@@ -191,15 +203,6 @@ extension ViewController: CLLocationManagerDelegate {
     }
 }
 
-//MARK: - WeatherManagerDelegate
-extension ViewController: WeatherManagerDelegate {
-    
-    func reloadWeatherData() {
-        self.tableView.reloadData()
-        setCurrentWeatherLabels()
-    }
-    
-}
 
 //MARK: - ETC.
 
@@ -215,12 +218,17 @@ extension ViewController {
         tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
     }
     
+    func reloadWeatherData() {
+        self.tableView.reloadData()
+        setCurrentWeatherLabels()
+    }
+    
     func setCurrentWeatherLabels() {
-        self.tempertureLabel.text = String(format: "%.f", floor(ViewController.weatherData?.current.temp ?? 0)) + "℃"
+        self.tempertureLabel.text = String(format: "%.f", floor(self.weatherData?.current.temp ?? 0)) + "℃"
         
-        self.highLabel.text = "최고: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.max ?? 0)) + "℃"
+        self.highLabel.text = "최고: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.max ?? 0)) + "℃"
         
-        self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
+        self.lowLabel.text = "최소: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.min ?? 0)) + "℃"
         
         changeAddressToDong()
     }
