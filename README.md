@@ -5,23 +5,20 @@
 
 ## 🕰️개발기간
 2023.08 ~ 2023.09(1차 개발 완료)
+
 2023.09 ~ (코드 리팩토링 및 기능추가)
 
 ## 🖥️개발환경
 xcode 14.3.1
+
 iOS 16.4
-## 사용된 스택
-• Swift
-• MVC(리팩토링 중)
-• TableView
-• CollectionView
-• URLSession
-• CoreLocation
 
 ## 📱주요기능
+
 ### 주소 확인
   CoreLocation을 이용해 현재 위치(위도, 경도) 확인.
   확인한 주소를 동으로 가공.
+  
 ### 날씨 확인
   확인한 위치를 기반으로 날씨 API(OpenWeatherAPI)에서 현재 날씨, 시간별 날씨, 일별 날씨를 받아옴.
   
@@ -34,6 +31,20 @@ iOS 16.4
   현재 날씨에 대한 기타 내용(습도, 기압 등)을 표시.
 
 ## 기타
+
+### ⚙️사용된 스택
+• Swift
+
+• MVC(리팩토링 중)
+
+• TableView
+
+• CollectionView
+
+• URLSession
+
+• CoreLocation
+
 ### 사용한 API
   OpenWeatherAPI
 ### 사용한 라이브러리
