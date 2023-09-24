@@ -10,6 +10,13 @@
 ## 🖥️개발환경
 xcode 14.3.1
 iOS 16.4
+## 사용된 스택
+• Swift
+• MVC(리팩토링 중)
+• TableView
+• CollectionView
+• URLSession
+• CoreLocation
 
 ## 📱주요기능
 ### 주소 확인
