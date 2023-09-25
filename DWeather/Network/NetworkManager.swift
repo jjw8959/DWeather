@@ -31,14 +31,6 @@ struct NetworkManager {
                     print("Failed to decode from JSON", jsonError)
                 }
                 
-//                if let safeData = data {
-                //                    ViewController.weatherData = parseJSON(data: safeData)
-                //
-                //                    DispatchQueue.main.async {
-                //                        self.delegate?.reloadWeatherData()
-                //                    }
-                //                }
-                
             }.resume()
         }
     }

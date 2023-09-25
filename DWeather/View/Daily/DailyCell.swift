@@ -31,6 +31,8 @@ class DailyCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    //MARK: - DailyCell funcs
+    
     func getData(weatherData: WeatherData?) {
         self.weatherData = weatherData
     }

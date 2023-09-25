@@ -106,18 +106,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
-            
-//            cell.dayLabel.text = Date(timeIntervalSince1970: (self.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (self.weatherData?.timezone_offset ?? 0)).getDayFromDate()
-//
-//            cell.lowLabel.text = String(format: "%.0f", floor(self.weatherData?.daily[indexPath.row + 1].temp.min ?? 0)) + "℃"
-//
-//            cell.highLabel.text = String(format: "%.f", floor(self.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
-//
-//            if let icon = self.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
-//               let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
-//                cell.weatherImage.kf.setImage(with: weatherImageURL)
-//            }
-//
             cell.getData(weatherData: self.weatherData)
             let configuredData = cell.configureCell(index: indexPath.row + 1)
             cell.setupCell(configuredData)
@@ -130,9 +118,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "InfoCell", for: indexPath) as! InfoCell
             
-            cell.weatherData = self.weatherData
-            
-            cell.configureWithIndexPathRow(indexPathRow: indexPath.row)
+            cell.getData(weatherData: weatherData)
+            let configuredData = cell.configureCell(index: indexPath.row)
+            cell.setupCell(configuredData)
             
             cell.backgroundColor = UIColor.clear
             
