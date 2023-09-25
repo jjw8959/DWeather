@@ -10,20 +10,19 @@ import CoreLocation
 
 class ViewController: UIViewController {
     //MARK: - property
-    let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
-    
+   
     var urls = ""
     
     var weatherData: WeatherData?
     var networkManager = NetworkManager()
     let locationManager = CLLocationManager()
-    
-    let findLocation = CLLocation(latitude: 37.6, longitude: 126.7)
     let geocoder = CLGeocoder()
     let locale = Locale(identifier: "Ko-kr")
     var location: [String] = []
-    let hourlyTableViewCell = HourlyTableViewCell()
     
+    let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
+    let apiKey = "&appid=3de3162e2a95cb6050fc726bf76c691d"
+    let urlTrailer = "&units=metric&exclude=minutely"
     
     //MARK: - outlet
     @IBOutlet weak var tableView: UITableView!
@@ -32,42 +31,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var tempertureLabel: UILabel!
     
+    @IBAction func updateLocationPressed(_ sender: UIButton) {
+        startApplication()
+    }
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         tableView.delegate = self
         tableView.dataSource = self
-        
-        initLocationManager(locationManager: locationManager)
-        locationManager.requestLocation()
-        
-        let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
-        let apiKey = "&appid=3de3162e2a95cb6050fc726bf76c691d"
-        let urlTrailer = "&units=metric&exclude=minutely"
-        
-        var lat = locationManager.location?.coordinate.latitude ?? 0
-//        if let lat = locationManager.location?.coordinate.latitude {
-//
-//        }
-        var long = locationManager.location?.coordinate.longitude ?? 0
-        
-        urls = urlHeader + "&lat=" + String(format:"%.2f", lat) + "&lon=" + String(format: "%.2f", long) + apiKey + urlTrailer
-        
-        initCells()
-        
         tableView.backgroundColor = UIColor.clear
-        
-//        networkManager.delegate = self
-        networkManager.performRequest(urlString: urls) { (weather) in
-            guard let weather = weather else { return }
-            self.weatherData = weather
-            self.reloadWeatherData()
-        }
-//
-//        DispatchQueue.main.async {
-//            self.reloadWeatherData()
-//        }
+        initCells()
+        startApplication()
         
     }
 }
@@ -158,7 +133,6 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
         if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             manager.requestLocation()
         } else {
@@ -177,13 +151,13 @@ extension ViewController: CLLocationManagerDelegate {
         print(error)
     }
     
-    func changeAddressToDong() {
-        
-        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) {(placemaker, error) in
+    func changeAddressToDong(foundLocation: CLLocation) {
+        geocoder.reverseGeocodeLocation(foundLocation, preferredLocale: locale) {(placemaker, error) in
             if let address: [CLPlacemark] = placemaker {
                 if let name = address.last?.name {
                     self.location = name.split(separator: " ").map(String.init)
                     self.cityLabel.text = self.location[0]
+                    print(self.location[0])
                     
                 }
             }
@@ -206,22 +180,40 @@ extension ViewController {
         tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
     }
     
-    func reloadWeatherData() {
-        self.tableView.reloadData()
-        setCurrentWeatherLabels()
+    func startApplication() {
+        initLocationManager(locationManager: locationManager)
+        locationManager.requestLocation()
+        
+        let lat = locationManager.location?.coordinate.latitude ?? 0 //수정필요
+        let long = locationManager.location?.coordinate.longitude ?? 0 //수정필요
+        let findLocation = CLLocation(latitude: lat, longitude: long)
+        print(lat)
+        print(long)
+        
+        urls = urlHeader + "&lat=" + String(format:"%.6f", lat) + "&lon=" + String(format: "%.6f", long) + apiKey + urlTrailer
+        
+        networkManager.performRequest(urlString: urls) { (weather) in
+            guard let weather = weather else { return }
+            self.weatherData = weather
+            self.reloadWeatherData(foundLocation: findLocation)
+        }
     }
     
-    func setCurrentWeatherLabels() {
+    func reloadWeatherData(foundLocation: CLLocation) {
+        self.tableView.reloadData()
+        setCurrentWeatherLabels(foundLocation: foundLocation)
+    }
+    
+    func setCurrentWeatherLabels(foundLocation: CLLocation) {
         self.tempertureLabel.text = String(format: "%.f", floor(self.weatherData?.current.temp ?? 0)) + "℃"
         
         self.highLabel.text = "최고: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.max ?? 0)) + "℃"
         
         self.lowLabel.text = "최소: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.min ?? 0)) + "℃"
         
-        changeAddressToDong()
+        changeAddressToDong(foundLocation: foundLocation)
     }
 }
-
 
 extension Date {
     

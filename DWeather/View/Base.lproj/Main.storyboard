@@ -88,14 +88,24 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65N-Cu-PMo">
+                                <rect key="frame" x="15.999999999999996" y="59" width="50.666666666666657" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="paperplane" catalog="system"/>
+                                <connections>
+                                    <action selector="updateLocationPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IPh-d2-Oih"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemCyanColor"/>
                         <constraints>
+                            <constraint firstItem="65N-Cu-PMo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="D8h-dV-rs6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vYG-PI-aSj" secondAttribute="trailing" id="GBY-Cn-Kqq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ghT-4z-c9r" secondAttribute="bottom" id="MwJ-Op-iMw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ghT-4z-c9r" secondAttribute="trailing" id="b86-VZ-Qty"/>
                             <constraint firstItem="vYG-PI-aSj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="65" id="e7R-OA-sg4"/>
+                            <constraint firstItem="65N-Cu-PMo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="jtR-U6-0rC"/>
                             <constraint firstItem="vYG-PI-aSj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="prR-Uq-bix"/>
                             <constraint firstItem="ghT-4z-c9r" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sTo-iZ-qRr"/>
                             <constraint firstItem="vYG-PI-aSj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="t5A-eV-Sm9"/>
@@ -116,6 +126,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="paperplane" catalog="system" width="128" height="119"/>
         <systemColor name="systemCyanColor">
             <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
