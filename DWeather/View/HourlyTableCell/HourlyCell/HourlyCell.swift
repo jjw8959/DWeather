@@ -17,23 +17,4 @@ class HourlyCell: UICollectionViewCell {
         
     }
     
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        setupBorder()
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        setupBorder()
-//    }
-//
-//    private func setupBorder() {
-//        self.layer.borderColor = UIColor.black.cgColor
-//        self.layer.borderWidth = 1.0
-//        self.layer.cornerRadius = 5.0
-//    }
-    
-    
-    
-    
 }

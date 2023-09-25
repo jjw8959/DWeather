@@ -10,8 +10,6 @@ import CoreLocation
 
 class ViewController: UIViewController {
     //MARK: - property
-   
-    var urls = ""
     
     var weatherData: WeatherData?
     var networkManager = NetworkManager()
@@ -50,6 +48,7 @@ class ViewController: UIViewController {
 //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -72,12 +71,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "HourlyTableViewCell", for: indexPath) as! HourlyTableViewCell
-            
-            cell.weatherData = self.weatherData
-            
+            cell.getData(weatherData: weatherData)
             cell.backgroundColor = UIColor.clear
             
             return cell
+            
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
@@ -184,13 +182,13 @@ extension ViewController {
         initLocationManager(locationManager: locationManager)
         locationManager.requestLocation()
         
-        let lat = locationManager.location?.coordinate.latitude ?? 0 //수정필요
-        let long = locationManager.location?.coordinate.longitude ?? 0 //수정필요
+        let lat = locationManager.location?.coordinate.latitude ?? 0
+        let long = locationManager.location?.coordinate.longitude ?? 0
         let findLocation = CLLocation(latitude: lat, longitude: long)
         print(lat)
         print(long)
         
-        urls = urlHeader + "&lat=" + String(format:"%.6f", lat) + "&lon=" + String(format: "%.6f", long) + apiKey + urlTrailer
+        let urls = urlHeader + "&lat=" + String(format:"%.6f", lat) + "&lon=" + String(format: "%.6f", long) + apiKey + urlTrailer
         
         networkManager.performRequest(urlString: urls) { (weather) in
             guard let weather = weather else { return }

@@ -7,16 +7,7 @@
 
 import Foundation
 
-
-
-//protocol WeatherManagerDelegate {
-//    func reloadWeatherData()
-//}
-
-
 struct NetworkManager {
-//
-//    var delegate: WeatherManagerDelegate?
     
     func performRequest(urlString: String, completion: @escaping (WeatherData?) -> Void) {
         if let url = URL(string: urlString) {
