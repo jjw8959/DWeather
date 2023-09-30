@@ -10,20 +10,17 @@ import CoreLocation
 
 class ViewController: UIViewController {
     //MARK: - property
-    let testURL = "https://api.openweathermap.org/data/3.0/onecall?&lat=37.67&lon=126.80&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
     
-    var urls = ""
-    
-    static var weatherData: WeatherData?
+    var weatherData: WeatherData?
     var networkManager = NetworkManager()
     let locationManager = CLLocationManager()
-    
-    let findLocation = CLLocation(latitude: 37.6, longitude: 126.7)
     let geocoder = CLGeocoder()
     let locale = Locale(identifier: "Ko-kr")
     var location: [String] = []
-    let hourlyTableViewCell = HourlyTableViewCell()
     
+    let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
+    let apiKey = "&appid=3de3162e2a95cb6050fc726bf76c691d"
+    let urlTrailer = "&units=metric&exclude=minutely"
     
     //MARK: - outlet
     @IBOutlet weak var tableView: UITableView!
@@ -32,44 +29,26 @@ class ViewController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var tempertureLabel: UILabel!
     
+    @IBAction func updateLocationPressed(_ sender: UIButton) {
+        startApplication()
+    }
     //MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         tableView.delegate = self
         tableView.dataSource = self
-        
-        initLocationManager(locationManager: locationManager)
-        locationManager.requestLocation()
-        
-        let urlHeader = "https://api.openweathermap.org/data/3.0/onecall?"
-        let urlTrailer = "&appid=3de3162e2a95cb6050fc726bf76c691d&units=metric&exclude=minutely"
-        
-        var lat = locationManager.location?.coordinate.latitude ?? 0
-        var long = locationManager.location?.coordinate.longitude ?? 0
-        
-        urls = urlHeader + "&lat=" + String(format:"%.2f", lat) + "&lon=" + String(format: "%.2f", long) + urlTrailer
-        print(testURL)
-        print(urls)
-        
-        let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
-        tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
-        
-        let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
-        tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
-        
-        let infoCellNib = UINib(nibName: "InfoCell", bundle: nil)
-        tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
-        
         tableView.backgroundColor = UIColor.clear
-        
-        networkManager.delegate = self
-        networkManager.performRequest(urlString: urls)
+        initCells()
+        startApplication()
         
     }
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -92,26 +71,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "HourlyTableViewCell", for: indexPath) as! HourlyTableViewCell
-            
-            cell.weatherData = ViewController.weatherData
-            
+            cell.getData(weatherData: weatherData)
             cell.backgroundColor = UIColor.clear
             
             return cell
+            
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DailyCell", for: indexPath) as! DailyCell
             
-            
-            cell.dayLabel.text = Date(timeIntervalSince1970: (ViewController.weatherData?.daily[indexPath.row + 1].dt ?? 0) + (ViewController.weatherData?.timezone_offset ?? 0)).getDayFromDate()
-            
-            cell.lowLabel.text = String(format: "%.0f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.min ?? 0)) + "℃"
-            
-            cell.highLabel.text = String(format: "%.f", floor(ViewController.weatherData?.daily[indexPath.row + 1].temp.max ?? 0)) + "℃"
-            
-            if let icon = ViewController.weatherData?.hourly[indexPath.row + 1].weather[0].icon,
-               let weatherImageURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") {
-                cell.weatherImage.kf.setImage(with: weatherImageURL)
-            }
+            cell.getData(weatherData: self.weatherData)
+            let configuredData = cell.configureCell(index: indexPath.row + 1)
+            cell.setupCell(configuredData)
             
             cell.backgroundColor = UIColor.clear
             
@@ -121,9 +91,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "InfoCell", for: indexPath) as! InfoCell
             
-            cell.weatherData = ViewController.weatherData
-            
-            cell.configureWithIndexPathRow(indexPathRow: indexPath.row)
+            cell.getData(weatherData: weatherData)
+            let configuredData = cell.configureCell(index: indexPath.row)
+            cell.setupCell(configuredData)
             
             cell.backgroundColor = UIColor.clear
             
@@ -161,7 +131,6 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
         if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             manager.requestLocation()
         } else {
@@ -179,40 +148,70 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
-}
-
-//MARK: - WeatherManagerDelegate
-extension ViewController: WeatherManagerDelegate {
     
-    func reloadWeatherData() {
-        self.tableView.reloadData()
-        
-        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) {(placemaker, error) in
+    func changeAddressToDong(foundLocation: CLLocation) {
+        geocoder.reverseGeocodeLocation(foundLocation, preferredLocale: locale) {(placemaker, error) in
             if let address: [CLPlacemark] = placemaker {
-                if let name: String = address.last?.name {
+                if let name = address.last?.name {
                     self.location = name.split(separator: " ").map(String.init)
                     self.cityLabel.text = self.location[0]
+                    print(self.location[0])
+                    
                 }
             }
         }
-        
-        self.tempertureLabel.text = String(format: "%.f", floor(ViewController.weatherData?.current.temp ?? 0)) + "℃"
-        
-        self.highLabel.text = "최고: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.max ?? 0)) + "℃"
-        
-        self.lowLabel.text = "최소: " + String(format: "%.f", floor(ViewController.weatherData?.daily[0].temp.min ?? 0)) + "℃"
-        
-        
     }
-    
 }
 
-//MARK: - ETC.
-//
-//extension ViewController {
-//
-//}
 
+//MARK: - ETC.
+
+extension ViewController {
+    func initCells() {
+        let hourlyCellNib = UINib(nibName: "HourlyTableViewCell", bundle: nil)
+        tableView.register(hourlyCellNib, forCellReuseIdentifier: "HourlyTableViewCell")
+        
+        let dailyCellNib = UINib(nibName: "DailyCell", bundle: nil)
+        tableView.register(dailyCellNib, forCellReuseIdentifier: "DailyCell")
+        
+        let infoCellNib = UINib(nibName: "InfoCell", bundle: nil)
+        tableView.register(infoCellNib, forCellReuseIdentifier: "InfoCell")
+    }
+    
+    func startApplication() {
+        initLocationManager(locationManager: locationManager)
+        locationManager.requestLocation()
+        
+        let lat = locationManager.location?.coordinate.latitude ?? 0
+        let long = locationManager.location?.coordinate.longitude ?? 0
+        let findLocation = CLLocation(latitude: lat, longitude: long)
+        print(lat)
+        print(long)
+        
+        let urls = urlHeader + "&lat=" + String(format:"%.6f", lat) + "&lon=" + String(format: "%.6f", long) + apiKey + urlTrailer
+        
+        networkManager.performRequest(urlString: urls) { (weather) in
+            guard let weather = weather else { return }
+            self.weatherData = weather
+            self.reloadWeatherData(foundLocation: findLocation)
+        }
+    }
+    
+    func reloadWeatherData(foundLocation: CLLocation) {
+        self.tableView.reloadData()
+        setCurrentWeatherLabels(foundLocation: foundLocation)
+    }
+    
+    func setCurrentWeatherLabels(foundLocation: CLLocation) {
+        self.tempertureLabel.text = String(format: "%.f", floor(self.weatherData?.current.temp ?? 0)) + "℃"
+        
+        self.highLabel.text = "최고: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.max ?? 0)) + "℃"
+        
+        self.lowLabel.text = "최소: " + String(format: "%.f", floor(self.weatherData?.daily[0].temp.min ?? 0)) + "℃"
+        
+        changeAddressToDong(foundLocation: foundLocation)
+    }
+}
 
 extension Date {
     
