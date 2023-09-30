@@ -217,6 +217,7 @@ extension Date {
     
     func getAmPmFromDate() -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "a"
         return formatter.string(from: self)
     }
@@ -229,6 +230,7 @@ extension Date {
     
     func getDayFromDate() -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "EEEE"
         return formatter.string(from: self)
     }
