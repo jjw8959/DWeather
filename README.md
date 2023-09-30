@@ -62,3 +62,12 @@ iOS 16.4
   
 ### 사용한 라이브러리
   Kingfisher
+
+## 🏙️작동 화면
+![Simulator Screenshot - iPhone 15 - 2023-09-30 at 12 05 29](https://github.com/jjw8959/DWeather/assets/76551806/29cf5045-d393-456e-ac4d-21d5f43d4c35)
+![Simulator Screenshot - iPhone 15 - 2023-09-30 at 12 05 44](https://github.com/jjw8959/DWeather/assets/76551806/b957b41b-44ca-4b85-9b0e-7401ecd4d3c3)
+
+https://github.com/jjw8959/DWeather/assets/76551806/959f8e25-7188-4106-8298-f2e3ae47adc6
+
+
+
