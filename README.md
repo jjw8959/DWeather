@@ -45,8 +45,6 @@ iOS 16.4
 ### ⚙️기술 스택
 • Swift
 
-• MVC(리팩토링 중)
-
 • TableView
 
 • CollectionView
